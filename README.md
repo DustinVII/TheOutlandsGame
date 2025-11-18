@@ -25,22 +25,32 @@ Then cd to the folder:
 cd TheOutlandsGame
 ```
 
-### 3. Install dependencies
+### 3. Install dependencies for Vite and Socket.op
 ```bash
 npm install
 ```
 This installs all dependencies listed in `package.json`, including Vite, Three.js and any other required libraries.
-
-### 4. Run the development server
+Then go to `/server` folder and also install dependencies for Socket.io:
 ```bash
-npm run dev
+npm install
+```
+
+### 4. Run the servers
+First run the Node.js server. Go to `/TheOutlandsGame` then do:
+```bash
+node server/server.js #to start the Node server
+```
+This will start the Node.js server on `http://localhost:3000`
+Then start the Vite development server
+```bash
+npm run dev #to start the development server
 ```
 Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
 
 ## Tech stack
 - **Vite** – lightning-fast dev environment
 - **Three.js** – 3D rendering
-- **Socket.io** (coming soon) – multiplayer networking
+- **Socket.io** – multiplayer networking
 - **MySQL** (future) – persistent backend for player data, stats and world info
 
 ## Planned features
@@ -49,7 +59,7 @@ Vite will start a local development server and give you a URL (usually `http://l
 
 ✔️ Basic world rendering
 
-⏳ Multiplayer player syncing (Socket.io)
+✔️ Multiplayer player syncing (Socket.io)
 
 ⏳ Simple character models for players
 
