@@ -1,5 +1,13 @@
 import * as THREE from 'three';
 
+// Add socket.io
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3000");
+
+socket.on("connect", () => {
+  console.log("Connected to server:", socket.id);
+});
+
 //scene
 const scene = new THREE.Scene();
 const canvas = document.querySelector('#viewPort');
@@ -144,13 +152,13 @@ window.addEventListener("blur", () => { // Reset all keys automatically if a pop
 let moveSpeed = 0.05;
 let sprintMultiplier = 2.5;   // how much faster when sprinting
 
+// Store last sent state
+let lastPosition = new THREE.Vector3();
+let lastRotation = { yaw: 0, pitch: 0 };
+
 function updateMovement() {
-
-
     // Base speed
     let speed = moveSpeed;
-
-    // If Shift is held → increase speed
     if (keys.shift) speed *= sprintMultiplier;
 
     let direction = new THREE.Vector3();
@@ -166,9 +174,33 @@ function updateMovement() {
     if (keys.d) player.position.add(right.clone().multiplyScalar(speed));
 
     // Vertical movement
-    if (keys[" "])      player.position.y += speed;  
-    if (keys.control)   player.position.y -= speed;
+    if (keys[" "])    player.position.y += speed;  
+    if (keys.control) player.position.y -= speed;
 
+    // Check if position or rotation has changed
+    const positionChanged = !player.position.equals(lastPosition);
+    const rotationChanged = yaw !== lastRotation.yaw || pitch !== lastRotation.pitch;
+
+    if (positionChanged || rotationChanged) {
+        // Emit player's position and rotation
+        socket.emit("playerUpdate", {
+            id: socket.id,
+            position: {
+                x: player.position.x,
+                y: player.position.y,
+                z: player.position.z
+            },
+            rotation: {
+                yaw: yaw,
+                pitch: pitch
+            }
+        });
+
+        // Update last sent state
+        lastPosition.copy(player.position);
+        lastRotation.yaw = yaw;
+        lastRotation.pitch = pitch;
+    }
 }
 
 //cube
@@ -177,6 +209,81 @@ const cubeMat = new THREE.MeshStandardMaterial({ color: 0x44aaff });
 const cube = new THREE.Mesh(cubeGeom, cubeMat);
 cube.position.set(0, 0.5, 0);
 scene.add(cube);
+
+
+
+
+
+
+
+
+
+
+
+
+// Store other players
+const otherPlayers = {}; // { id: THREE.Mesh }
+
+// Create a capsule geometry for other players
+const capsuleGeom = new THREE.CapsuleGeometry(0.25, 1, 4, 8); // radius, length, capSegments, radialSegments
+const capsuleMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+// Handle initial list of connected players
+socket.on("currentPlayers", (players) => {
+    for (const id in players) {
+        if (id !== socket.id && !otherPlayers[id]) {
+            const capsule = new THREE.Mesh(capsuleGeom, capsuleMat.clone());
+            capsule.position.set(
+                players[id].position.x,
+                players[id].position.y,
+                players[id].position.z
+            );
+            scene.add(capsule);
+            otherPlayers[id] = capsule;
+        }
+    }
+});
+
+// Handle updates from other players
+socket.on("playerUpdate", (data) => {
+    if (data.id === socket.id) return; // ignore self
+
+    if (!otherPlayers[data.id]) {
+        // New player joined
+        const capsule = new THREE.Mesh(capsuleGeom, capsuleMat.clone());
+        scene.add(capsule);
+        otherPlayers[data.id] = capsule;
+    }
+
+    // Update position and rotation
+    const capsule = otherPlayers[data.id];
+    capsule.position.set(data.position.x, data.position.y, data.position.z);
+
+    // Optional: rotate capsule if you want it to face same direction as yaw
+    capsule.rotation.y = data.rotation.yaw;
+});
+
+// Handle disconnects
+socket.on("playerDisconnected", (id) => {
+    if (otherPlayers[id]) {
+        scene.remove(otherPlayers[id]);
+        delete otherPlayers[id];
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
