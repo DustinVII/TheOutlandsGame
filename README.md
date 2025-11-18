@@ -1,0 +1,70 @@
+# Experimental 3D Multiplayer FPS game called 'The Outlands'
+
+This is a **simple experimental 3D FPS project** built using **Vite** and **Three.js**, with plans to expand into full **multiplayer** using **Socket.io** and later a backend database powered by **MySQL**.
+
+The goal of the project is to explore:
+- First-person movement in the browser  
+- 3D rendering using Three.js  
+- Basic networking with Socket.io (coming soon)  
+- Synchronizing players in a shared world  
+- Persistent data using MySQL (future update)
+
+This project is work-in-progress, experimental and open for contributions.
+
+## Instructions
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/DustinVII/TheOutlandsGame.git
+```
+Then cd to the folder:
+```bash
+cd <project-folder>
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+This installs all dependencies listed in `package.json`, including Vite, Three.js and any other required libraries.
+
+### 3. Run the development server
+
+```bash
+npm run dev
+```
+Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
+
+
+## Tech stack
+- **Vite** – lightning-fast dev environment
+- **Three.js** – 3D rendering
+- **Socket.io** (coming soon) – multiplayer networking
+- **MySQL** (future) – persistent backend for player data, stats and world info
+
+## Planned features
+
+✔️ FPS camera movement
+
+✔️ Basic world rendering
+
+⏳ Multiplayer player syncing (Socket.io)
+
+⏳ Simple character models for players
+
+⏳ Chat system or simple voice indicators
+
+⏳ MySQL integration for account/world data
+
+⏳ Game lobby or room system
+
+This project will grow as I experiment with new ideas.
+
+## Feedback and contribution
+
+I welcome feedback, suggestions and improvements.
+Anyone is free to contribute, fork the project or create a pull request.
+
+If you're interested in collaborating, let me know what you think. I’m happy to work together to push the project further.
