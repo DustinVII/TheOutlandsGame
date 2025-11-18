@@ -1,4 +1,4 @@
-# Experimental 3D Multiplayer FPS game called 'The Outlands'
+# The Outlands: An experimental 3D multiplayer in-browser FPS game
 
 This is a **simple experimental 3D FPS project** built using **Vite** and **Three.js**, with plans to expand into full **multiplayer** using **Socket.io** and later a backend database powered by **MySQL**.
 
@@ -19,7 +19,7 @@ git clone https://github.com/DustinVII/TheOutlandsGame.git
 ```
 Then cd to the folder:
 ```bash
-cd <project-folder>
+cd project-folder
 ```
 
 ### 2. Install dependencies
