@@ -13,30 +13,29 @@ This project is work-in-progress, experimental and open for contributions.
 
 ## Instructions
 
-### 1. Clone the repository
+### 1. Install node.js
+If you haven't installed node yet, get it here: https://nodejs.org/en/download for Linux and Windows.
+
+### 2. Clone the repository
 ```bash
 git clone https://github.com/DustinVII/TheOutlandsGame.git
 ```
 Then cd to the folder:
 ```bash
-cd project-folder
+cd TheOutlandsGame
 ```
 
-### 2. Install dependencies
-
+### 3. Install dependencies
 ```bash
 npm install
 ```
-
 This installs all dependencies listed in `package.json`, including Vite, Three.js and any other required libraries.
 
-### 3. Run the development server
-
+### 4. Run the development server
 ```bash
 npm run dev
 ```
 Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
-
 
 ## Tech stack
 - **Vite** – lightning-fast dev environment
