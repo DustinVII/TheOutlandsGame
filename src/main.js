@@ -1,8 +1,16 @@
 import * as THREE from 'three';
 
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const loader = new GLTFLoader();
+
+
+
 // Add socket.io
 import { io } from "socket.io-client";
 const socket = io("http://localhost:3000");
+
+
 
 socket.on("connect", () => {
   console.log("Connected to server:", socket.id);
@@ -211,6 +219,24 @@ cube.position.set(0, 0.5, 0);
 scene.add(cube);
 
 
+loader.load(
+  '/src/assets/world.gltf',
+  function(gltf) {
+    const model = gltf.scene;
+    model.scale.set(0.5, 0.5, 0.5);
+    model.position.set(0, 0, 0);
+    model.traverse((child) => {
+      if (child.isMesh) {
+        child.castShadow = true;
+        child.receiveSHadow = true;
+      }
+    });
+
+    scene.add(model);
+    console.log('Model loaded:', model);
+
+  }
+);
 
 
 
@@ -287,8 +313,8 @@ socket.on("playerDisconnected", (id) => {
 
 //lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(2,2,2);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+directionalLight.position.set(5,5,5);
 scene.add(ambientLight);
 scene.add(directionalLight);
 
