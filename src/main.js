@@ -45,7 +45,7 @@ scene.add(player);
 
 // Camera attached to player
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
-camera.position.set(0, 1.6, -0.1); // height of eyes
+camera.position.set(0, 1.75, 0); // height of eyes
 player.add(camera);
 
 window.addEventListener("contextmenu", e => e.preventDefault()); //disables rightclicking by default using the mouse
@@ -253,8 +253,12 @@ loader.load(
 const otherPlayers = {}; // { id: THREE.Mesh }
 
 // Create a capsule geometry for other players
-const capsuleGeom = new THREE.CapsuleGeometry(0.25, 1, 4, 8); // radius, length, capSegments, radialSegments
+const capsuleGeom = new THREE.BoxGeometry(0.5, 1.85, 0.5); // length, capSegments, radialSegments
 const capsuleMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+// Set a default starting position for the geometry's mesh (centered at y=0.875 for "standing" on ground)
+capsuleGeom.translate(0, 0.93, 0);
+
+
 
 // Handle initial list of connected players
 socket.on("currentPlayers", (players) => {
