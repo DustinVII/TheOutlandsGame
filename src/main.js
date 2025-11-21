@@ -222,7 +222,7 @@ scene.add(cube);
 
 
 loader.load(
-  '/src/assets/world.gltf',
+  '/src/assets/world.glb',
   function(gltf) {
     const model = gltf.scene;
     model.scale.set(0.5, 0.5, 0.5);
