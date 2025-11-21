@@ -9,6 +9,8 @@ const loader = new GLTFLoader();
 // Add socket.io
 import { io } from "socket.io-client";
 const socket = io("http://localhost:3000");
+//or do this for public servers: const socket = io("http://PUBLIC-IP:3000");
+//But make sure to open the ports
 
 
 

@@ -57,6 +57,8 @@ io.on("connection", (socket) => {
     });
 });
 
+//Do httpServer.listen(3000,"0.0.0.0", () => { for public servers
+
 httpServer.listen(3000, () => {
     console.log("Socket.io server running on port 3000");
 });

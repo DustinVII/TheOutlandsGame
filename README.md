@@ -25,7 +25,7 @@ Then cd to the folder:
 cd TheOutlandsGame
 ```
 
-### 3. Install dependencies for Vite and Socket.op
+### 3. Install dependencies for Vite and Socket.io
 ```bash
 npm install
 ```
@@ -41,11 +41,24 @@ First run the Node.js server. Go to `/TheOutlandsGame` then do:
 node server/server.js #to start the Node server
 ```
 This will start the Node.js server on `http://localhost:3000`
-Then start the Vite development server
+
+**Edit for online servers**
+If you want to start the server online, you can edit the file so it listens to IP addresses from different devices by doing `httpServer.listen(3000,"0.0.0.0", () => {`. Make sure to open port 3000 also.
+
+Then start the Vite development server:
 ```bash
 npm run dev #to start the development server
 ```
 Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
+
+**Edit for online servers**
+If you want to start it on a public server (online), edit `main.js` and adjust the socket `const socket = io("http://PUBLIC-IP:3000");`
+To start the development server online do:
+```bash
+npm run dev -- --host 0.0.0.0 #to start the development server online
+```
+
+
 
 ## Tech stack
 - **Vite** – lightning-fast dev environment
