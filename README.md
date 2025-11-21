@@ -2,6 +2,8 @@
 
 This is a **simple experimental 3D FPS project** built using **Vite** and **Three.js**, with plans to expand into full **multiplayer** using **Socket.io** and later a backend database powered by **MySQL**.
 
+![First screenshot](public/images/screenshots/1.jpg)
+
 The goal of the project is to explore:
 - First-person movement in the browser  
 - 3D rendering using Three.js  
