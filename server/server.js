@@ -3,6 +3,22 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 
+//Get config values
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+// __dirname replacement in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Build absolute path to config.json
+const configPath = path.join(__dirname, "..", "src", "config.json");
+// Read and parse JSON
+const raw = fs.readFileSync(configPath, "utf8");
+const config = JSON.parse(raw);
+
+console.log("App Name:", config.APP_NAME);
+
+
 const app = express();
 app.use(cors()); // allow frontend to connect
 
@@ -10,12 +26,15 @@ app.use(cors()); // allow frontend to connect
 // app.use(express.static('public'));
 
 const httpServer = createServer(app);
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "*", // or "http://localhost:5173" for Vite frontend
+    origin: (config.SERVER_URL != "localhost") ? "*" : "localhost:" + config.FRONTEND_PORT, // or "http://localhost:5173" for Vite frontend
     methods: ["GET", "POST"]
   }
 });
+
+
 
 // Store connected players
 const players = {};
@@ -57,8 +76,13 @@ io.on("connection", (socket) => {
     });
 });
 
-//Do httpServer.listen(3000,"0.0.0.0", () => { for public servers
 
-httpServer.listen(3000, () => {
-    console.log("Socket.io server running on port 3000");
-});
+if (config.SERVER_URL != "localhost") {
+    httpServer.listen(config.SERVER_PORT,"0.0.0.0", () => { //Do httpServer.listen(3000,"0.0.0.0", () => { for public servers
+        console.log("Socket.io server running publicly on http://"+config.SERVER_URL+":"+config.SERVER_PORT);
+    });
+} else {
+    httpServer.listen(config.SERVER_PORT, () => {
+        console.log("Socket.io server running locally on http://localhost:"+config.SERVER_PORT);
+    });
+}

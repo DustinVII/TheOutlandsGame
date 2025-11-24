@@ -1,6 +1,9 @@
 import * as THREE from 'three';
-
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import config from "./config.json";
+
+console.log(config.APP_NAME);
+console.log(config.SERVER_URL);
 
 const loader = new GLTFLoader();
 
@@ -8,7 +11,7 @@ const loader = new GLTFLoader();
 
 // Add socket.io
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+const socket = io("http://"+config.SERVER_URL+":"+config.SERVER_PORT);
 //or do this for public servers: const socket = io("http://PUBLIC-IP:3000");
 //But make sure to open the ports
 

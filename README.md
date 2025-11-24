@@ -7,7 +7,7 @@ This is a **simple experimental 3D FPS project** built using **Vite** and **Thre
 The goal of the project is to explore:
 - First-person movement in the browser  
 - 3D rendering using Three.js  
-- Basic networking with Socket.io (coming soon)  
+- Basic networking with Socket.io 
 - Synchronizing players in a shared world  
 - Persistent data using MySQL (future update)
 
@@ -22,40 +22,51 @@ If you haven't installed node yet, get it here: https://nodejs.org/en/download f
 ```bash
 git clone https://github.com/DustinVII/TheOutlandsGame.git
 ```
-Then cd to the folder:
-```bash
-cd TheOutlandsGame
-```
 
 ### 3. Install dependencies for Vite and Socket.io
 ```bash
+cd TheOutlandsGame
 npm install
 ```
-This installs all dependencies listed in `package.json`, including Vite, Three.js and any other required libraries.
-Then go to `/server` folder and also install dependencies for Socket.io:
+This installs all frontend dependencies listed in `TheOutlandsGame/package.json`, including Vite, Three.js and any other required libraries.
 ```bash
+cd TheOutlandsGame/server
 npm install
 ```
+This installs all server dependencies listed in `TheOutlandsGame/server/package.json` including socket.io.
+
+### 4. Set configurations
+Rename `config.json.example` to `config.json` and make adjustments
+```bash
+cd TheOutlandsGame/src/
+cp config.json.example config.json
+nano config.json
+```
+Only make adjustments if you're not running the app locally. If you run it on a webserver, change `localhost` to the server's IP.
+```json
+{
+    "APP_NAME": "The Outlands",
+    "SERVER_URL": "localhost",
+    "SERVER_PORT": 3000,
+    "FRONTEND_PORT": 5173
+}
+```
+If you use a firewall, make sure the ports are open.
 
 ### 4. Run the servers
 First run the Node.js server. Go to `/TheOutlandsGame` then do:
 ```bash
 node server/server.js #to start the Node server
 ```
-This will start the Node.js server on `http://localhost:3000`
 
-**Edit for online servers**
-If you want to start the server online, you can edit the file so it listens to IP addresses from different devices by doing `httpServer.listen(3000,"0.0.0.0", () => {`. Make sure to open port 3000 also.
-
-Then start the Vite development server:
+Then start the Vite development server locally:
 ```bash
 npm run dev #to start the development server
 ```
 Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
 
-**Edit for online servers**
-If you want to start it on a public server (online), edit `main.js` and adjust the socket `const socket = io("http://PUBLIC-IP:3000");`
-To start the development server online do:
+#### For online testing on web servers (optional)
+Run this command instead to start it on an online server. `0.0.0.0` allows all IP addresses to access the server as each client will have a different IP.
 ```bash
 npm run dev -- --host 0.0.0.0 #to start the development server online
 ```
@@ -65,6 +76,7 @@ npm run dev -- --host 0.0.0.0 #to start the development server online
 ## Tech stack
 - **Vite** – lightning-fast dev environment
 - **Three.js** – 3D rendering
+- **Ammo.js** – Physics
 - **Socket.io** – multiplayer networking
 - **MySQL** (future) – persistent backend for player data, stats and world info
 
@@ -75,6 +87,10 @@ npm run dev -- --host 0.0.0.0 #to start the development server online
 ✔️ Basic world rendering
 
 ✔️ Multiplayer player syncing (Socket.io)
+
+⏳ Make collisions, physics and gravity work
+
+⏳ Allow players to be able to shoot each other using a weapon
 
 ⏳ Simple character models for players
 

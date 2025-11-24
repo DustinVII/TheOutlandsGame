@@ -1,0 +1,6 @@
+{
+    "APP_NAME": "The Outlands",
+    "SERVER_URL": "localhost",
+    "SERVER_PORT": 3000,
+    "FRONTEND_PORT": 5173
+}
