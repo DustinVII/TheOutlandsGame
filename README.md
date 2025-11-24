@@ -54,13 +54,15 @@ Only make adjustments if you're not running the app locally. If you run it on a 
 If you use a firewall, make sure the ports are open.
 
 ### 5. Run the servers
-First run the Node.js server. Go to `/TheOutlandsGame` then do:
+First run the Node.js server:
 ```bash
-node server/server.js #to start the Node server
+cd TheOutlandsGame/server
+node server.js #to start the Node server
 ```
 
 Then start the Vite development server locally:
 ```bash
+cd TheOutlandsGame
 npm run dev #to start the development server
 ```
 Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
@@ -68,6 +70,7 @@ Vite will start a local development server and give you a URL (usually `http://l
 #### For online testing on web servers (optional)
 Run this command instead to start it on an online server. `0.0.0.0` allows all IP addresses to access the server as each client will have a different IP.
 ```bash
+cd TheOutlandsGame
 npm run dev -- --host 0.0.0.0 #to start the development server online
 ```
 
