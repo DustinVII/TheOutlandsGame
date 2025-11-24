@@ -1,113 +1,131 @@
-# The Outlands: An experimental 3D multiplayer in-browser FPS game
+# The Outlands – Experimental in-browser 3D Multiplayer FPS
 
-This is a **simple experimental 3D FPS project** built using **Vite** and **Three.js**, with plans to expand into full **multiplayer** using **Socket.io** and later a backend database powered by **MySQL**.
+**The Outlands** is an experimental in-browser 3D FPS built with **Vite** and **Three.js**, with plans for **multiplayer** using **Socket.io** and persistent data with **MySQL**.
 
 ![First screenshot](public/images/screenshots/1.jpg)
 
-The goal of the project is to explore:
-- First-person movement in the browser  
-- 3D rendering using Three.js  
-- Basic networking with Socket.io 
-- Synchronizing players in a shared world  
-- Persistent data using MySQL (future update)
+---
 
-This project is work-in-progress, experimental and open for contributions.
+## Features
 
-## Instructions
+- Browser-based first-person movement  
+- 3D rendering with Three.js  
+- Multiplayer networking via Socket.io  
+- Physics with Ammo.js  
+- Persistent data using MySQL (future)
 
-### 1. Install node.js
-If you haven't installed node yet, get it here: https://nodejs.org/en/download for Linux and Windows.
+---
+
+## Setup Instructions
+
+### 1. Install Node.js
+Download and install Node.js from [https://nodejs.org/en/download](https://nodejs.org/en/download).
+
+---
 
 ### 2. Clone the repository
+
 ```bash
 git clone https://github.com/DustinVII/TheOutlandsGame.git
-```
-
-### 3. Install dependencies for Vite and Socket.io
-```bash
 cd TheOutlandsGame
-npm install
 ```
-This installs all frontend dependencies listed in `TheOutlandsGame/package.json`, including Vite, Three.js and any other required libraries.
-```bash
-cd TheOutlandsGame/server
-npm install
-```
-This installs all server dependencies listed in `TheOutlandsGame/server/package.json` including socket.io.
 
-### 4. Set configurations
-Rename `config.json.example` to `config.json` and make adjustments
+---
+
+### 3. Install dependencies
+
+**Frontend:**
+
 ```bash
-cd TheOutlandsGame/src/
+npm install
+```
+
+**Server:**
+
+```bash
+cd server
+npm install
+cd ..
+```
+
+---
+
+### 4. Configure settings
+
+```bash
+cd src
 cp config.json.example config.json
 nano config.json
 ```
-Only make adjustments if you're not running the app locally. If you run it on a webserver, change `localhost` to the server's IP.
+
+Adjust only if running on an online server:
+
 ```json
 {
-    "APP_NAME": "The Outlands",
-    "SERVER_URL": "localhost",
-    "SERVER_PORT": 3000,
-    "FRONTEND_PORT": 5173
+  "APP_NAME": "The Outlands",
+  "SERVER_URL": "localhost",
+  "SERVER_PORT": 3000,
+  "FRONTEND_PORT": 5173
 }
 ```
-If you use a firewall, make sure the ports are open.
+
+> Ensure firewall allows the specified ports.
+
+---
 
 ### 5. Run the servers
-First run the Node.js server:
+
+**Start Node.js server:**
+
 ```bash
-cd TheOutlandsGame/server
-node server.js #to start the Node server
+cd server
+node server.js
 ```
 
-Then start the Vite development server locally:
-```bash
-cd TheOutlandsGame
-npm run dev #to start the development server
-```
-Vite will start a local development server and give you a URL (usually `http://localhost:5173`) to open the game in your browser.
+**Start Vite development server:**
 
-#### For online testing on web servers (optional)
-Run this command instead to start it on an online server. `0.0.0.0` allows all IP addresses to access the server as each client will have a different IP.
 ```bash
-cd TheOutlandsGame
-npm run dev -- --host 0.0.0.0 #to start the development server online
+cd ..
+npm run dev
 ```
 
+> Vite will provide a local URL (usually `http://localhost:5173`).  
 
+**For online testing do this instead:**
 
-## Tech stack
-- **Vite** – lightning-fast dev environment
-- **Three.js** – 3D rendering
-- **Ammo.js** – Physics
-- **Socket.io** – multiplayer networking
-- **MySQL** (future) – persistent backend for player data, stats and world info
+```bash
+npm run dev -- --host 0.0.0.0
+```
 
-## Planned features
+> This allows access from any IP.
 
-✔️ FPS camera movement
+---
 
-✔️ Basic world rendering
+## Tech Stack
 
-✔️ Multiplayer player syncing (Socket.io)
+- **Vite** – fast development environment  
+- **Three.js** – 3D rendering  
+- **Ammo.js** – physics engine  
+- **Socket.io** – multiplayer networking  
+- **MySQL** (future) – backend persistence
 
-⏳ Make collisions, physics and gravity work
+---
 
-⏳ Allow players to be able to shoot each other using a weapon
+## Planned Features
 
-⏳ Simple character models for players
+✔ FPS camera movement  
+✔ Basic world rendering  
+✔ Multiplayer player syncing  
 
-⏳ Chat system or simple voice indicators
+⏳ Collisions, physics, and gravity  
+⏳ Weapons and combat  
+⏳ Simple character models  
+⏳ Chat or voice indicators  
+⏳ MySQL integration  
+⏳ Game lobby/room system  
 
-⏳ MySQL integration for account/world data
+---
 
-⏳ Game lobby or room system
+## Contributing
 
-This project will grow as I experiment with new ideas.
-
-## Feedback and contribution
-
-I welcome feedback, suggestions and improvements.
-Anyone is free to contribute, fork the project or create a pull request.
-
-If you're interested in collaborating, let me know what you think. I’m happy to work together to push the project further.
+Feedback, suggestions and contributions are welcome! If you want to collaborate, contact me — happy to work together to grow the project.
