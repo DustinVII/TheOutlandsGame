@@ -53,7 +53,7 @@ Only make adjustments if you're not running the app locally. If you run it on a 
 ```
 If you use a firewall, make sure the ports are open.
 
-### 4. Run the servers
+### 5. Run the servers
 First run the Node.js server. Go to `/TheOutlandsGame` then do:
 ```bash
 node server/server.js #to start the Node server
