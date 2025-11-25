@@ -56,7 +56,7 @@ socket.on("connect", () => console.log("Connected:", socket.id));
 // Initialize Ammo and physics world
 // ------------------------------------------------------
 Ammo().then(AmmoLibInstance => {
-  
+
   AmmoLib = AmmoLibInstance;
 
   // --- Physics world setup ---
@@ -96,6 +96,7 @@ function initScene() {
   scene.background = new THREE.Color(0x111111);
   scene.fog = new THREE.Fog(0x111111, 0, 70);
 
+
   // RENDERER
 
   renderer = new THREE.WebGLRenderer({
@@ -106,6 +107,9 @@ function initScene() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.VSMShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+
+
 
   // PLAYER + CAMERA
   player = new THREE.Object3D();
@@ -123,8 +127,8 @@ function initScene() {
 
   // LIGHTS
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-  const fillLight1 = new THREE.HemisphereLight(0x8dc1de, 0x00668d, 1.5);
   const directionalLight = new THREE.DirectionalLight(0xe9c6ff, 3);
+
   directionalLight.castShadow = true;
   directionalLight.shadow.radius = 2; // Increase to make edges softer
   directionalLight.position.set(5, 5, 5);
@@ -136,8 +140,18 @@ function initScene() {
   directionalLight.shadow.camera.top = 100;
 
 
+
+  directionalLight.position.set(5, 5, 5);
+
+
+
+
+
+
+
+
   scene.add(ambientLight);
-  scene.add(fillLight1);
+
   scene.add(directionalLight);
 
   // CUBE
@@ -147,6 +161,8 @@ function initScene() {
   cube.position.set(0, 1, 0);
   cube.castShadow = true;
   cube.receiveShadow = true;
+
+
   scene.add(cube);
 
   // GLTF Loader for the world
@@ -166,7 +182,20 @@ function initScene() {
       // }
     });
 
-    model.scale.set(1, 1, 1);
+    model.scale.set(0.5, 0.5, 0.5);
+
+
+
+
+
+
+
+
+
+
+
+
+
     scene.add(model);
   });
 
@@ -174,20 +203,20 @@ function initScene() {
 
 
 
-  // GLTF for the base player model
-  let basePlayerModel = null;
-loader.load('/src/assets/cubeman_blender.glb', (gltf) => {
-    basePlayerModel = gltf.scene;
 
-    basePlayerModel.traverse((obj) => {
-        if (obj.isMesh) {
-            obj.castShadow = true;
-            obj.receiveShadow = true;
-        }
-    });
 
-    basePlayerModel.scale.set(1, 1, 1);
-});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -380,11 +409,11 @@ document.addEventListener("mousemove", (e) => {
 
 
 // Create a capsule geometry for other players
-const capsuleGeom = new THREE.BoxGeometry(0.5, 2, 0.5); // length, capSegments, radialSegments
+const capsuleGeom = new THREE.BoxGeometry(0.5, 1.85, 0.5); // length, capSegments, radialSegments
 const capsuleMat = new THREE.MeshStandardMaterial({ color: 0xff0000 });
 // Set a default starting position for the geometry's mesh (centered at y=0.875 for "standing" on ground)
-
 capsuleGeom.translate(0, 1.3, 0);
+
 
 
 
@@ -396,60 +425,60 @@ capsuleGeom.translate(0, 1.3, 0);
 
 // Handle initial list of connected players
 socket.on("currentPlayers", (players) => {
-  for (const id in players) {
+    for (const id in players) {
+        if (id !== socket.id && !otherPlayers[id]) {
+            const capsule = new THREE.Mesh(capsuleGeom, capsuleMat.clone());
+            capsule.position.set(
+                players[id].position.x,
+                players[id].position.y,
+                players[id].position.z
+            );
+            scene.add(capsule);
+            otherPlayers[id] = capsule;
+        }
+    }
 
-      if (id !== socket.id && !otherPlayers[id]) {
 
-          if (!basePlayerModel) return; // Model not loaded yet
 
-          // Clone GLTF model for this player
-          const playerModel = basePlayerModel.clone(true);
-          
-          playerModel.position.set(
-              players[id].position.x,
-              players[id].position.y,
-              players[id].position.z
-          );
 
-          scene.add(playerModel);
-          otherPlayers[id] = playerModel;
-      }
-  }
+
+
+
 });
 
 // Handle updates from other players
 socket.on("playerUpdate", (data) => {
-  if (data.id === socket.id) return; // ignore self
+    if (data.id === socket.id) return; // ignore self
 
-  // If model not loaded yet, skip
-  if (!basePlayerModel) return;
+    if (!otherPlayers[data.id]) {
+        // New player joined
+        const capsule = new THREE.Mesh(capsuleGeom, capsuleMat.clone());
+        scene.add(capsule);
+        otherPlayers[data.id] = capsule;
+    }
 
-  if (!otherPlayers[data.id]) {
-      // New player joined -> create a clone of the GLTF model
-      const model = basePlayerModel.clone(true);
 
-      model.traverse((obj) => {
-          if (obj.isMesh) {
-              obj.castShadow = true;
-              obj.receiveShadow = true;
-          }
-      });
 
-      scene.add(model);
-      otherPlayers[data.id] = model;
-  }
 
-  // Update cloned model
-  const model = otherPlayers[data.id];
 
-  model.position.set(
-      data.position.x,
-      data.position.y,
-      data.position.z
-  );
 
-  // Set rotation (yaw) if your model uses Y rotation like normal
-  model.rotation.y = data.rotation.yaw;
+
+
+    // Update position and rotation
+    const capsule = otherPlayers[data.id];
+    capsule.position.set(data.position.x, data.position.y, data.position.z);
+
+
+
+
+
+
+
+
+
+
+    // Optional: rotate capsule if you want it to face same direction as yaw
+    capsule.rotation.y = data.rotation.yaw;
 });
 
 // Handle disconnects
