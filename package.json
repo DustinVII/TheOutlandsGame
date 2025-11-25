@@ -12,6 +12,7 @@
     "vite": "^7.2.2"
   },
   "dependencies": {
+    "@fred3d/ammo": "^1.0.0",
     "ammo.js": "github:kripken/ammo.js",
     "socket.io-client": "^4.8.1",
     "three": "^0.181.1"
